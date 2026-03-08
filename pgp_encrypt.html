@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PGP Escrow — Encrypt Shipping Address</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #111; color: #ccc;
+      font-family: "Courier New", Consolas, monospace; font-size: 13px;
+      padding: 30px 20px;
+    }
+    a { color: #888; }
+    .container { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 1em; color: #ccc; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+    h2 { font-size: 0.9em; color: #888; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 1px; }
+    .warn {
+      background: #1a0000; border: 1px solid #5a0000; color: #cc4444;
+      padding: 10px 14px; margin-bottom: 20px; font-size: 12px;
+    }
+    .info { background: #0a0a0a; border: 1px solid #222; padding: 12px; margin-bottom: 14px; font-size: 12px; color: #999; }
+    .pgp-key {
+      background: #0a0a0a; border: 1px solid #333;
+      padding: 12px; font-size: 10px;
+      word-break: break-all; white-space: pre-wrap; color: #666;
+      margin-bottom: 16px; max-height: 180px; overflow-y: auto;
+    }
+    textarea {
+      width: 100%; height: 140px;
+      background: #0a0a0a; border: 1px solid #333;
+      color: #ccc; font-family: "Courier New", Consolas, monospace;
+      font-size: 12px; padding: 10px; resize: vertical;
+      margin-bottom: 14px;
+    }
+    .btn {
+      background: transparent; border: 1px solid #555;
+      color: #888; font-family: inherit; font-size: 12px;
+      padding: 9px 22px; cursor: pointer; letter-spacing: 1px;
+    }
+    .btn:hover { border-color: #cc0000; color: #cc0000; cursor: crosshair; }
+    .nav { margin-bottom: 20px; font-size: 11px; }
+    footer { margin-top: 30px; border-top: 1px solid #222; padding-top: 10px; font-size: 10px; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav"><a href="market.html">&larr; Back to Market</a></div>
+    <h1>[ ESCROW CHECKOUT — STEP 2: ENCRYPT YOUR SHIPPING ADDRESS ]</h1>
+
+    <div class="warn">
+      ⚠ CRITICAL: You MUST encrypt your shipping address using the vendor's PGP public key below.
+      Never send your address in plaintext. The market admin CANNOT read your encrypted message—only the vendor can.
+    </div>
+
+    <div class="info">
+      <strong>Vendor:</strong> CryptWare_v2 &nbsp;|&nbsp;
+      <strong>PGP Fingerprint:</strong> 8F3A 21BC 0D4E 9F7A 2C1D 5B6E 3A0F 8D92 71CE 4B5A
+    </div>
+
+    <h2>Vendor PGP Public Key</h2>
+    <div class="pgp-key">-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2.2.41
+
+mQINBGZyAbQBEACw7KpN2mVqLxFy4RcUjHn8sYPdVqBo7te9I1a6kM3fhNjWxbL
++0qKcT5vG8RmP2nOsXe9YdZ4AeC7hVuJ6FkL0tWyBaNzDpI8MXQo1rUjGfTsX3
+qH7R4dVm5KLpBnIy8C2oF0wZg9stAeUJvXhkY3NcOdM6QrPl4GD2eWnT0mHKA5
+bCyF7N1XiLs8KUvJqRo3GeHdTm0pZ6wVYnBfIe2uDjXPkL9sCaOh5MqGz4Rt7Y
+Ne3dKlWf8JpVA0CbxQumETH6rZoS9gLi2P5tMF4XkjVen7RoBDw1NcGsYzApkHI
+3mZ0EqLvXbJ7RuT9pDnCW2YxF5sGKQwef4Vt68PLaNoi0MdHT3zJk7bXsFcR9Al
+BvCTKj2NyH0XpE4m5WgQoUZd6Ls8IrxDMvJenF3kT2cB9YPqAh7oNw1UiKqfO8
+sGHL6mXjN2Zt0kRvDb4eYCpI9FaWT7uxLQ5VoMcJ3hBgS8EAdKrP0Wm4lTeNv5
+XZf6CkP3QbHyUi1RgsD7TL2nw9A0JmeOqKc4BfhYV8pXlNGo2WrCjMtaZu6S7v
+kDI0qRbE3UycFg5TmKwLP9XeH8JzOoN4sVidQf2ArBt7p1YWmnUh0KcEjP...
+=xK9a
+-----END PGP PUBLIC KEY BLOCK-----</div>
+
+    <h2>Your Encrypted Shipping Address</h2>
+    <p style="font-size:11px;color:#555;margin-bottom:8px">
+      1. Copy the vendor's PGP key above into your local GPG keyring.<br>
+      2. Encrypt your shipping address: <code>gpg --encrypt --armor -r CryptWare_v2 address.txt</code><br>
+      3. Paste the resulting cipher block below and submit.
+    </p>
+    <textarea placeholder="-----BEGIN PGP MESSAGE-----&#10;Paste your encrypted shipping address here...&#10;-----END PGP MESSAGE-----"></textarea>
+
+    <button class="btn" onclick="alert('Order submitted to escrow. Await vendor confirmation via encrypted message.')">[ SUBMIT ENCRYPTED ORDER ]</button>
+
+    <footer>
+      Educational simulation. All content fictional. &copy; Harshit Kashyap
+    </footer>
+  </div>
+</body>
+</html>

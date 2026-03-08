@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Underground Market v3 :: .onion</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #111;
+      color: #ccc;
+      font-family: "Courier New", Consolas, monospace;
+      font-size: 13px;
+    }
+
+    a { color: #aaa; }
+    a:hover { color: #fff; }
+
+    /* ── Header ── */
+    header {
+      background: #0d0d0d;
+      border-bottom: 2px solid #333;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 { font-size: 1.1em; color: #ccc; letter-spacing: 2px; }
+    .header-meta { font-size: 11px; color: #555; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      padding: 6px 20px;
+      background: #0a0a0a;
+      border-bottom: 1px solid #222;
+      font-size: 11px;
+      color: #555;
+    }
+
+    /* ── Layout ── */
+    .page-wrap { display: flex; }
+
+    /* Sidebar */
+    aside {
+      width: 180px;
+      min-height: 100vh;
+      background: #0a0a0a;
+      border-right: 1px solid #222;
+      padding: 14px 10px;
+      flex-shrink: 0;
+    }
+    aside h3 {
+      font-size: 10px;
+      color: #555;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #222;
+      padding-bottom: 4px;
+    }
+    aside ul { list-style: none; }
+    aside ul li { margin-bottom: 4px; }
+    aside ul li a { color: #888; font-size: 12px; text-decoration: none; display: block; padding: 2px 4px; }
+    aside ul li a:hover { color: #ccc; background: #1a1a1a; }
+
+    /* Main */
+    main { flex: 1; padding: 16px 20px; }
+
+    main h2 { font-size: 12px; color: #888; letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 6px; }
+
+    /* ── 3-column product grid ── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .product-card {
+      border: 1px solid #333;
+      background: #0d0d0d;
+      padding: 10px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .product-card:hover {
+      border-color: #cc0000;
+      cursor: crosshair;
+    }
+
+    /* Pixelated / dithered image simulation */
+    .product-img {
+      width: 150px;
+      height: 150px;
+      display: block;
+      margin: 0 auto 10px;
+      image-rendering: pixelated;
+      background: #1a1a1a;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Dither pattern overlay using CSS */
+    .product-img::after {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle, #2a2a2a 1px, transparent 1px),
+        radial-gradient(circle, #2a2a2a 1px, transparent 1px);
+      background-size: 4px 4px;
+      background-position: 0 0, 2px 2px;
+      opacity: .45;
+    }
+    /* SVG-based product icon inside */
+    .product-icon {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      filter: grayscale(1) contrast(0.6);
+    }
+
+    .product-name {
+      font-size: 12px;
+      color: #bbb;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    .product-price {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    .product-price span { color: #e0b800; }
+    .product-desc { font-size: 10px; color: #555; margin-bottom: 10px; line-height: 1.5; }
+    .product-meta { font-size: 9px; color: #444; margin-bottom: 10px; }
+
+    .btn-buy {
+      display: block;
+      width: 100%;
+      padding: 7px 0;
+      background: transparent;
+      border: 1px solid #555;
+      color: #888;
+      font-family: "Courier New", Consolas, monospace;
+      font-size: 11px;
+      cursor: crosshair;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: all 0.15s;
+    }
+    .btn-buy:hover {
+      border-color: #cc0000;
+      color: #cc0000;
+    }
+
+    /* ── Warning banner ── */
+    .warning-bar {
+      background: #1a0000;
+      border: 1px solid #5a0000;
+      color: #cc4444;
+      padding: 8px 14px;
+      font-size: 11px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid #222;
+      padding: 10px 20px;
+      font-size: 10px;
+      color: #333;
+      text-align: center;
+    }
+    #creator-name { color: #555; }
+
+    /* ── Educational Popup ── */
+    .popup-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.95);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    .popup-box {
+      border: 2px solid #cc0000;
+      background: #0d0d0d;
+      color: #ccc;
+      padding: 30px 36px;
+      max-width: 560px;
+      width: 92%;
+      font-family: "Courier New", Consolas, monospace;
+      text-align: center;
+    }
+    .popup-box h2 { font-size: 1.1em; color: #cc4444; margin-bottom: 14px; }
+    .popup-box p  { font-size: 12px; margin-bottom: 10px; line-height: 1.7; }
+    .popup-box .author { color: #e0b800; font-weight: bold; }
+    .popup-btn {
+      background: #cc0000; color: #fff;
+      border: none; padding: 10px 28px;
+      font-family: inherit; font-size: 13px;
+      cursor: pointer; font-weight: bold;
+      margin-top: 10px;
+    }
+    .popup-btn:hover { background: #ff2222; }
+  </style>
+</head>
+<body>
+
+<!-- ══ Educational Popup ══ -->
+<div class="popup-overlay" id="edu-popup">
+  <div class="popup-box">
+    <h2>⚠ EDUCATIONAL PURPOSE ONLY ⚠</h2>
+    <p>This website is a <strong>fictional simulation</strong> created purely for
+       <strong>educational and cybersecurity awareness</strong> purposes. Nothing
+       here is real. No transactions, purchases, or illegal activity of any kind.</p>
+    <p>All products, prices, crypto addresses, and vendors are <strong>completely fabricated</strong>.</p>
+    <p>Created by <span class="author">Harshit Kashyap</span>. Unauthorised removal of the
+       creator's attribution will render this page non-functional.</p>
+    <button class="popup-btn" onclick="closePopup()">I UNDERSTAND – CONTINUE</button>
+  </div>
+</div>
+
+<!-- ══ Page Content ══ -->
+<div id="main-content" style="display:none">
+
+  <header>
+    <h1>[ UNDERGROUND MARKET v3 ]</h1>
+    <div class="header-meta">
+      Session: XF-8821-KRYPT &nbsp;|&nbsp;
+      Your cart: 0 item(s) &nbsp;|&nbsp;
+      Escrow Balance: 0.00 XMR
+    </div>
+  </header>
+  <div class="breadcrumb">
+    <a href="index.html">Index</a> &rsaquo; Market &rsaquo; All Listings
+  </div>
+
+  <div class="warning-bar">
+    ⚠ Always encrypt your shipping address using the vendor's PGP key before placing an order.
+    Failure to do so may compromise your identity. Never trust vendors with 0-day ratings.
+  </div>
+
+  <div class="page-wrap">
+    <aside>
+      <h3>Categories</h3>
+      <ul>
+        <li><a href="#">Digital Goods (12)</a></li>
+        <li><a href="#">Documents (7)</a></li>
+        <li><a href="#">Schematics (4)</a></li>
+        <li><a href="#">Software (9)</a></li>
+        <li><a href="#">Services (3)</a></li>
+      </ul>
+      <br>
+      <h3>Filter</h3>
+      <ul>
+        <li><a href="#">XMR Only</a></li>
+        <li><a href="#">BTC Only</a></li>
+        <li><a href="#">Escrow</a></li>
+        <li><a href="#">FE Vendors</a></li>
+      </ul>
+      <br>
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="index.html">Index</a></li>
+        <li><a href="forum.html">Forum</a></li>
+        <li><a href="paste.html">Paste</a></li>
+        <li><a href="mixer.html">Mixer</a></li>
+      </ul>
+    </aside>
+
+    <main>
+      <h2>// All Listings — Page 1 of 3</h2>
+
+      <div class="product-grid">
+
+        <!-- Product 1 -->
+        <div class="product-card">
+          <div class="product-img">
+            <div class="product-icon">💾</div>
+          </div>
+          <div class="product-name">Encrypted Burner OS (Bootable USB)</div>
+          <div class="product-price">Price: <span>0.04 XMR</span></div>
+          <div class="product-desc">
+            Fully hardened, amnesic operating system pre-loaded on a 32GB USB 3.0 stick.
+            No logs. No traces. Ships in 3-5 days via dead-drop.
+          </div>
+          <div class="product-meta">
+            Vendor: <strong>CryptWare_v2</strong> &nbsp;|&nbsp; Rating: ★★★★☆ (92) &nbsp;|&nbsp; Ships: Worldwide<br>
+            Escrow: ✔ FE available after 5 orders
+          </div>
+          <a href="pgp_encrypt.html" class="btn-buy">[ BUY — ENCRYPT ADDRESS ]</a>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+          <div class="product-img">
+            <div class="product-icon">📄</div>
+          </div>
+          <div class="product-name">Leaked Area 51 Sub-level Blueprints (PDF)</div>
+          <div class="product-price">Price: <span>0.01 BTC</span></div>
+          <div class="product-desc">
+            137-page declassified architectural schematics of alleged underground sub-levels S4–S6.
+            Includes ventilation, access tunnels, and redacted floor maps.
+          </div>
+          <div class="product-meta">
+            Vendor: <strong>ShadowDoc_7</strong> &nbsp;|&nbsp; Rating: ★★★☆☆ (44) &nbsp;|&nbsp; Digital only<br>
+            Escrow: ✔ Instant delivery after payment confirmed
+          </div>
+          <a href="pgp_encrypt.html" class="btn-buy">[ BUY — ENCRYPT ADDRESS ]</a>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+          <div class="product-img">
+            <div class="product-icon">⚡</div>
+          </div>
+          <div class="product-name">EMP Generator Schematics</div>
+          <div class="product-price">Price: <span>0.15 XMR</span></div>
+          <div class="product-desc">
+            Theoretical RF engineering diagrams for a portable EMP device.
+            Educational use only. Sold as pure conceptual research material.
+          </div>
+          <div class="product-meta">
+            Vendor: <strong>RF_Ghost_0x3</strong> &nbsp;|&nbsp; Rating: ★★★★★ (211) &nbsp;|&nbsp; Digital only<br>
+            Escrow: ✔ PGP-signed delivery confirmation
+          </div>
+          <a href="pgp_encrypt.html" class="btn-buy">[ BUY — ENCRYPT ADDRESS ]</a>
+        </div>
+
+        <!-- Additional listings -->
+        <div class="product-card">
+          <div class="product-img">
+            <div class="product-icon">🔐</div>
+          </div>
+          <div class="product-name">Zero-Day CVE Database Dump (2024)</div>
+          <div class="product-price">Price: <span>0.08 XMR</span></div>
+          <div class="product-desc">
+            250+ unpatched vulnerability entries compiled from private researcher feeds.
+            Includes PoC code snippets. Educational / research purposes only.
+          </div>
+          <div class="product-meta">
+            Vendor: <strong>NullSector</strong> &nbsp;|&nbsp; Rating: ★★★★☆ (78) &nbsp;|&nbsp; Digital<br>
+            Escrow: ✔
+          </div>
+          <a href="pgp_encrypt.html" class="btn-buy">[ BUY — ENCRYPT ADDRESS ]</a>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img">
+            <div class="product-icon">📡</div>
+          </div>
+          <div class="product-name">IMSI Catcher Detection App (Android)</div>
+          <div class="product-price">Price: <span>0.02 XMR</span></div>
+          <div class="product-desc">
+            Detects Stingray/IMSI catcher towers near your location. Alerts via vibration.
+            APK signed with developer key. Includes source code.
+          </div>
+          <div class="product-meta">
+            Vendor: <strong>CipherGhost</strong> &nbsp;|&nbsp; Rating: ★★★★★ (133)<br>
+            Escrow: ✔
+          </div>
+          <a href="pgp_encrypt.html" class="btn-buy">[ BUY — ENCRYPT ADDRESS ]</a>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img">
+            <div class="product-icon">🗝️</div>
+          </div>
+          <div class="product-name">Disposable Identity Kit (Template)</div>
+          <div class="product-price">Price: <span>0.05 XMR</span></div>
+          <div class="product-desc">
+            Fictional template pack for OpSec research on digital identity management.
+            Not a real ID. For educational study of identity systems only.
+          </div>
+          <div class="product-meta">
+            Vendor: <strong>GhostLayer_X</strong> &nbsp;|&nbsp; Rating: ★★★☆☆ (29)<br>
+            Escrow: ✔
+          </div>
+          <a href="pgp_encrypt.html" class="btn-buy">[ BUY — ENCRYPT ADDRESS ]</a>
+        </div>
+
+      </div><!-- /product-grid -->
+    </main>
+  </div><!-- /page-wrap -->
+
+  <footer>
+    <a href="index.html">Index</a> &nbsp;|&nbsp;
+    <a href="forum.html">Forum</a> &nbsp;|&nbsp;
+    <a href="paste.html">Paste</a> &nbsp;|&nbsp;
+    <a href="mixer.html">Mixer</a> &nbsp;|&nbsp;
+    <a href="search.html">Search</a>
+    <br><br>
+    Educational simulation. All content fictional. &copy; <span id="creator-name">Harshit Kashyap</span>
+  </footer>
+
+</div><!-- /main-content -->
+
+<script>
+  (function() {
+    const REQUIRED = "Harshit Kashyap";
+
+    function closePopup() {
+      if (!document.getElementById("creator-name") ||
+          document.getElementById("creator-name").textContent.trim() !== REQUIRED) {
+        document.getElementById("edu-popup").innerHTML =
+          '<div style="color:#f00;font-family:monospace;padding:40px;text-align:center">' +
+          '<h2>ERROR 403</h2><p>Creator attribution missing or altered. Page disabled.</p></div>';
+        return;
+      }
+      document.getElementById("edu-popup").style.display = "none";
+      document.getElementById("main-content").style.display = "block";
+    }
+    window.closePopup = closePopup;
+
+    const observer = new MutationObserver(function() {
+      const el = document.getElementById("creator-name");
+      if (!el || el.textContent.trim() !== REQUIRED) {
+        document.getElementById("main-content").style.display = "none";
+        const overlay = document.getElementById("edu-popup");
+        overlay.style.display = "flex";
+        overlay.innerHTML =
+          '<div style="color:#f00;font-family:monospace;padding:40px;text-align:center">' +
+          '<h2>ERROR 403</h2><p>Creator attribution missing or altered. Page disabled.</p></div>';
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  })();
+</script>
+</body>
+</html>
