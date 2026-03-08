@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE INDEX :: Hidden Wiki</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000;
+      color: #4AF626;
+      font-family: "Courier New", Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    a { color: #4AF626; text-decoration: underline; }
+    a:hover { color: #fff; }
+
+    /* ── Blinking cursor ── */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1em;
+      background: #4AF626;
+      vertical-align: middle;
+      margin-left: 4px;
+      animation: blink 1s step-start infinite;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* ── ASCII header ── */
+    .ascii-logo {
+      font-size: 13px;
+      white-space: pre;
+      line-height: 1.2;
+      color: #4AF626;
+      text-shadow: 0 0 8px #4AF626;
+      margin-bottom: 10px;
+    }
+
+    h1 { font-size: 1.4em; margin-bottom: 6px; }
+
+    .intro {
+      border: 1px solid #4AF626;
+      padding: 10px 16px;
+      margin: 16px auto;
+      max-width: 700px;
+      text-align: left;
+    }
+
+    /* ── Links table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      text-align: left;
+    }
+    th {
+      border-bottom: 2px solid #4AF626;
+      padding: 6px 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+    }
+    td { border-bottom: 1px dashed #1a5e0a; padding: 7px 10px; }
+    tr:hover td { background: #0a1a04; }
+    .category { color: #8aff50; font-weight: bold; white-space: nowrap; }
+    .onion-url { font-size: 11px; color: #2a9f10; }
+
+    /* ── PGP block ── */
+    .pgp-block {
+      border: 1px solid #4AF626;
+      padding: 14px;
+      margin: 24px auto;
+      max-width: 700px;
+      text-align: left;
+      font-size: 11px;
+      word-break: break-all;
+    }
+    .pgp-block h3 { margin-bottom: 8px; font-size: 13px; letter-spacing: 1px; }
+
+    /* ── Footer / credit ── */
+    .credit {
+      margin-top: 30px;
+      font-size: 11px;
+      color: #1a7a0a;
+      border-top: 1px dashed #1a5e0a;
+      padding-top: 10px;
+    }
+    #creator-name { color: #4AF626; }
+
+    /* ── Educational Popup ── */
+    .popup-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.92);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    .popup-box {
+      border: 2px solid #4AF626;
+      background: #000;
+      color: #4AF626;
+      padding: 30px 36px;
+      max-width: 560px;
+      width: 92%;
+      font-family: "Courier New", Consolas, monospace;
+      text-align: center;
+    }
+    .popup-box h2 { font-size: 1.2em; margin-bottom: 14px; }
+    .popup-box p  { font-size: 12px; margin-bottom: 10px; line-height: 1.7; }
+    .popup-box .author { color: #8aff50; font-weight: bold; }
+    .popup-btn {
+      background: #4AF626; color: #000;
+      border: none; padding: 10px 28px;
+      font-family: inherit; font-size: 13px;
+      cursor: pointer; font-weight: bold;
+      margin-top: 10px;
+    }
+    .popup-btn:hover { background: #8aff50; }
+  </style>
+</head>
+<body>
+
+<!-- ══ Educational Popup ══ -->
+<div class="popup-overlay" id="edu-popup">
+  <div class="popup-box">
+    <h2>⚠ EDUCATIONAL PURPOSE ONLY ⚠</h2>
+    <p>This website is a <strong>fictional simulation</strong> created purely for
+       <strong>educational and cybersecurity awareness</strong> purposes. Nothing
+       here is real. No actual illegal activity is promoted or facilitated.</p>
+    <p>All .onion links, crypto addresses, products, and personas are <strong>completely fabricated</strong>.</p>
+    <p>Created by <span class="author">Harshit Kashyap</span>. Unauthorised removal of the
+       creator's attribution will render this page non-functional.</p>
+    <button class="popup-btn" onclick="closePopup()">I UNDERSTAND – CONTINUE</button>
+  </div>
+</div>
+
+<!-- ══ Page Content ══ -->
+<div class="container" id="main-content" style="display:none">
+
+  <div class="ascii-logo">
+ ████████╗██╗  ██╗███████╗    ██╗███╗   ██╗██████╗ ███████╗██╗  ██╗
+    ╚══██╔══╝██║  ██║██╔════╝    ██║████╗  ██║██╔══██╗██╔════╝╚██╗██╔╝
+       ██║   ███████║█████╗      ██║██╔██╗ ██║██║  ██║█████╗   ╚███╔╝
+       ██║   ██╔══██║██╔══╝      ██║██║╚██╗██║██║  ██║██╔══╝   ██╔██╗
+       ██║   ██║  ██║███████╗    ██║██║ ╚████║██████╔╝███████╗██╔╝ ██╗
+       ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝</div>
+
+  <h1>[ THE INDEX ]<span class="cursor"></span></h1>
+
+  <div class="intro">
+    <p>&gt;&gt; Welcome to the deep layer. Bookmark this .onion link. It changes every 72 hours.</p>
+    <p>&gt;&gt; Mirror: <code>y3rqf8k2mxvjd94lpzwce5bnqta7ohus0gi6r1f3kd8emvp2c.onion</code></p>
+    <p>&gt;&gt; Last verified: 2026-03-08 03:17 UTC &nbsp;|&nbsp; Node: <strong>TOR2WEB-RELAY-9</strong></p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Site Name</th>
+        <th>.onion Address</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="category">[MARKET]</td>
+        <td><a href="market.html">Underground Market v3</a></td>
+        <td class="onion-url">z8np3qk7x0r2lmve4faw6dshgtiy9ucob1j5p0kntmcf3xvr2sq.onion</td>
+        <td>🟢 ONLINE</td>
+      </tr>
+      <tr>
+        <td class="category">[FORUM]</td>
+        <td><a href="forum.html">Paranoia Board /pboard/</a></td>
+        <td class="onion-url">r4hc2yqml0kfjnx9e5dvt8gbpzau7oi6ws3r1mhceqkf0y4jxnv.onion</td>
+        <td>🟢 ONLINE</td>
+      </tr>
+      <tr>
+        <td class="category">[PASTEBIN]</td>
+        <td><a href="paste.html">DeadDrop Paste Service</a></td>
+        <td class="onion-url">k9mp5tgz3cxqwr8ydhe0nvualfob2ijs64k7r1pcte3x0mqfzdv.onion</td>
+        <td>🟢 ONLINE</td>
+      </tr>
+      <tr>
+        <td class="category">[MIXER]</td>
+        <td><a href="mixer.html">CoinShuffle Tumbler</a></td>
+        <td class="onion-url">f7sjd4kpvbzlmet0yqh3ucwin2goanrx8c6e5tnf1dj9kl0uvmq.onion</td>
+        <td>🟡 DEGRADED</td>
+      </tr>
+      <tr>
+        <td class="category">[LEAKS]</td>
+        <td><a href="securedrop.html">SecureDrop — Whistleblower Portal</a></td>
+        <td class="onion-url">p2x7njf9rqm5lkdc8s0hwbtuvgaye6z4oi3e1cn7jxf0qk2dmvr.onion</td>
+        <td>🟢 ONLINE</td>
+      </tr>
+      <tr>
+        <td class="category">[SEARCH]</td>
+        <td><a href="search.html">TorchX — Onion Search Engine</a></td>
+        <td class="onion-url">t9m6pyfn8rvlkqj3cdeh20uxwbszago7ir4q5pnm1eltk6fc0dv.onion</td>
+        <td>🟢 ONLINE</td>
+      </tr>
+      <tr>
+        <td class="category">[BLOG]</td>
+        <td><a href="blog.html">Sysadmin Log // Cypherpunk Dispatch</a></td>
+        <td class="onion-url">h5cdz2rsxpofq9n7kwum3bvjge0a4ilt1y8r6wfpmtnhe5xckdj.onion</td>
+        <td>🟢 ONLINE</td>
+      </tr>
+      <tr>
+        <td class="category">[LIBRARY]</td>
+        <td>The Hidden Library (mirror)</td>
+        <td class="onion-url">q1lhxpzby8nrjem5w0svdkgoct7ua4fi9e3mn26xrf0kqt5dlcv.onion</td>
+        <td>🔴 OFFLINE</td>
+      </tr>
+      <tr>
+        <td class="category">[IRC]</td>
+        <td>ShadowNet IRC Gateway</td>
+        <td class="onion-url">v6r3wnfq7mjtsepy0k8zdxa4lhcubgoi52n1ert9pm0jfvd3xkq.onion</td>
+        <td>🟡 DEGRADED</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pgp-block">
+    <h3>═══ SITE ADMINISTRATOR PGP PUBLIC KEY ═══</h3>
+    <p>Use this key to verify signed announcements from the Index admin.
+       If you receive a message claiming to be from us that is NOT signed by this key, it is a fake.</p>
+    <br>
+    <pre>
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2.2.41 (GNU/Linux)
+
+mQINBGZx9rQBEADN5Kp3mQvLwXyF2zRcUjHn8sYPdVqBo7te4I1a6kM3fhNjWx
+bL+0qKcT5vG8RmP2nOsXe9YdZ4AeC7hVuJ6FkL0tWyBaNzDpI8MXQo1rUjGfTs
+X3qH7R4dVm5KLpBnIy8C2oF0wZg9stAeUJvXhkY3NcOdM6QrPl4GD2eWnT0mHK
+A5bCyF7N1XiLs8KUvJqRo3GeHdTm0pZ6wVYnBfIe2uDjXPkL9sCaOh5MqGz4Rt
+7YNe3dKlWf8JpVA0CbxQumETH6rZoS9gLi2P5tMF4XkjVen7RoBDw1NcGsYzAp
+kHI3mZ0EqLvXbJ7RuT9pDnCW2YxF5sGKQwef4Vt68PLaNoi0MdHT3zJk7bXsFc
+R9AlBvCTKj2NyH0XpE4m5WgQoUZd6Ls8IrxDMvJenF3kT2cB9YPqAh7oNw1UiK
+qfO8sGHL6mXjN2Zt0kRvDb4eYCpI9FaWT7uxLQ5VoMcJ3hBgS8EAdKrP0Wm4lT
+eNv5XZf6CkP3QbHyUi1RgsD7TL2nw9A0JmeOqKc4BfhYV8pXlNGo2WrCjMtaZu
+6S7vkDI0qRbE3UycFg5TmKwLP9XeH8JzOoN4sVidQf2ArBt7p1YWmnUh0KcEjP
+qX8MFDaG2eLvRtN3oZjCkH6UbP4wYsVI9m7AdTfK1i5XnQgcBep0lRABEBAAG0
+KUluZGV4QWRtaW4gPGFkbWluQHkzcnFmOGsybXh2amQ5NGxwendj PiCJAjYEEw
+ECACAFAGZX9rQCGwMFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQ
++NqP0bJz7gFoT23VmQ2YEhV1KnDpM3fF0ZuoL7qkHCxBrWIe8s69NZvAGY4Rm
+k3TpJN8eXWflPqBO0C4dzR7YmH2VkjL9sFtUXaBcp10EgioPdKQn6Mvjh5TLWT
+NvEe3Kx1Yq8sZ0wB7FHjIUA2RbcPl6mToG9kNvWfXi4OeDs2JhYAq3rKp5gcCE
+sGdUKL3kZmJ0yN4AoXhV2fR9cPe5QwlBvnTm8Y1iDuoJs7XrKa0FMpNGqH3bZv
+...
+-----END PGP PUBLIC KEY BLOCK-----
+    </pre>
+  </div>
+
+  <div class="credit">
+    <p>This simulation was created for <strong>educational purposes only</strong>.<br>
+       Made by <span id="creator-name">Harshit Kashyap</span> &mdash; All content is fictional.<br>
+       Removal or modification of the creator attribution will disable this page.
+    </p>
+    <p style="margin-top:8px">[ <a href="index.html">INDEX</a> ] [ <a href="market.html">MARKET</a> ] [ <a href="forum.html">FORUM</a> ] [ <a href="paste.html">PASTE</a> ] [ <a href="mixer.html">MIXER</a> ] [ <a href="securedrop.html">SECURE DROP</a> ] [ <a href="search.html">SEARCH</a> ] [ <a href="blog.html">BLOG</a> ]</p>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  (function() {
+    // Attribution guard – page is non-functional without the creator name
+    const REQUIRED = "Harshit Kashyap";
+
+    function closePopup() {
+      if (!document.getElementById("creator-name") ||
+          document.getElementById("creator-name").textContent.trim() !== REQUIRED) {
+        document.getElementById("edu-popup").innerHTML =
+          '<div style="color:#f00;font-family:monospace;padding:40px;text-align:center">' +
+          '<h2>ERROR 403</h2><p>Creator attribution missing or altered. Page disabled.</p></div>';
+        return;
+      }
+      document.getElementById("edu-popup").style.display = "none";
+      document.getElementById("main-content").style.display = "block";
+    }
+    window.closePopup = closePopup;
+
+    // Observe DOM for tampering
+    const observer = new MutationObserver(function() {
+      const el = document.getElementById("creator-name");
+      if (!el || el.textContent.trim() !== REQUIRED) {
+        document.getElementById("main-content").style.display = "none";
+        const overlay = document.getElementById("edu-popup");
+        overlay.style.display = "flex";
+        overlay.innerHTML =
+          '<div style="color:#f00;font-family:monospace;padding:40px;text-align:center">' +
+          '<h2>ERROR 403</h2><p>Creator attribution missing or altered. Page disabled.</p></div>';
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  })();
+</script>
+</body>
+</html>

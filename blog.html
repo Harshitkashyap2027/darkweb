@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYSADMIN LOG // ENTRY 409 :: Cypherpunk Dispatch</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000;
+      color: #FFBF00;
+      font-family: "Courier New", Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    a { color: #FFBF00; }
+    a:hover { color: #fff; }
+
+    /* ── Typewriter effect ── */
+    @keyframes typewriter {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+    @keyframes blinkCaret {
+      0%, 100% { border-right-color: #FFBF00; }
+      50%       { border-right-color: transparent; }
+    }
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 3px solid #FFBF00;
+      width: 0;
+      animation:
+        typewriter   3.5s steps(40, end)  0.5s 1 normal forwards,
+        blinkCaret   0.8s step-start      0.5s infinite;
+    }
+
+    /* ── Layout — no margins, full width ── */
+    .page-wrap {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      border-right: 1px solid #3a2a00;
+      padding: 14px 10px;
+      flex-shrink: 0;
+      background: #020000;
+    }
+    .sidebar h3 {
+      font-size: 10px;
+      color: #7a5a00;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #3a2a00;
+      padding-bottom: 4px;
+    }
+    .sidebar ul { list-style: none; }
+    .sidebar ul li { margin-bottom: 6px; }
+    .sidebar ul li a {
+      color: #aa8800;
+      font-size: 11px;
+      display: block;
+      padding: 2px 4px;
+    }
+    .sidebar ul li a:hover { color: #FFBF00; background: #1a1000; }
+    .sidebar .tag { font-size: 9px; color: #5a4000; margin-top: 10px; }
+
+    /* Main content */
+    main {
+      flex: 1;
+      padding: 0;
+      border-right: 1px solid #3a2a00;
+    }
+
+    /* Blog header */
+    .blog-header {
+      border-bottom: 2px solid #FFBF00;
+      padding: 12px 0;
+    }
+    .blog-header .ascii-nav {
+      font-size: 11px;
+      color: #7a5a00;
+      padding: 6px 0;
+      border-bottom: 1px solid #3a2a00;
+    }
+    .blog-header h1 {
+      font-size: 1.6em;
+      color: #FFBF00;
+      padding: 14px 0 8px;
+      text-shadow: 0 0 10px #7a5a00;
+    }
+    .blog-header .entry-meta {
+      font-size: 10px;
+      color: #7a5a00;
+      padding: 0 0 10px;
+    }
+
+    /* Article body */
+    article {
+      padding: 20px 0;
+    }
+
+    article h2 {
+      font-size: 1em;
+      color: #FFBF00;
+      margin: 20px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px dashed #3a2a00;
+      padding-bottom: 4px;
+    }
+    article h3 { font-size: 0.9em; color: #cc9900; margin: 14px 0 6px; }
+    article p  { margin-bottom: 12px; color: #e0a800; }
+    article ul, article ol { margin: 8px 0 12px 20px; color: #e0a800; }
+    article li { margin-bottom: 4px; }
+    article code {
+      background: #1a1000;
+      color: #FFBF00;
+      padding: 1px 6px;
+      font-size: 11px;
+      border: 1px solid #3a2a00;
+    }
+    article pre {
+      background: #0a0800;
+      border: 1px solid #3a2a00;
+      padding: 12px;
+      overflow-x: auto;
+      margin: 12px 0;
+      color: #cc9900;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    /* PGP signature block */
+    .pgp-sig {
+      background: #0a0800;
+      border: 1px solid #3a2a00;
+      padding: 10px;
+      margin-top: 20px;
+      font-size: 10px;
+      color: #4a3a00;
+      word-break: break-all;
+    }
+    .pgp-sig .sig-header { color: #7a5a00; margin-bottom: 6px; font-size: 11px; }
+
+    /* Right sidebar (tags / archive) */
+    .right-sidebar {
+      width: 200px;
+      border-left: 1px solid #3a2a00;
+      padding: 14px 10px;
+      flex-shrink: 0;
+      background: #020000;
+    }
+    .right-sidebar h3 {
+      font-size: 10px;
+      color: #7a5a00;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #3a2a00;
+      padding-bottom: 4px;
+    }
+    .right-sidebar ul { list-style: none; }
+    .right-sidebar ul li { margin-bottom: 6px; font-size: 11px; }
+    .right-sidebar ul li a { color: #aa8800; }
+    .right-sidebar ul li a:hover { color: #FFBF00; }
+    .right-sidebar .tag-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .right-sidebar .tag-item { background: #1a1000; border: 1px solid #3a2a00; padding: 2px 6px; font-size: 9px; color: #7a5a00; }
+
+    /* Footer */
+    footer { border-top: 2px solid #FFBF00; padding: 10px 0; font-size: 10px; color: #7a5a00; text-align: center; }
+    #creator-name { color: #aa8800; }
+
+    /* ── Educational Popup ── */
+    .popup-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.97);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    .popup-box {
+      border: 2px solid #FFBF00;
+      background: #000;
+      color: #FFBF00;
+      padding: 30px 36px;
+      max-width: 560px;
+      width: 92%;
+      font-family: "Courier New", Consolas, monospace;
+      text-align: center;
+    }
+    .popup-box h2 { font-size: 1.1em; margin-bottom: 14px; }
+    .popup-box p  { font-size: 12px; margin-bottom: 10px; line-height: 1.7; color: #cc9900; }
+    .popup-box .author { color: #FFBF00; font-weight: bold; }
+    .popup-btn {
+      background: #FFBF00; color: #000;
+      border: none; padding: 10px 28px;
+      font-family: inherit; font-size: 13px;
+      cursor: pointer; font-weight: bold;
+      margin-top: 10px;
+    }
+    .popup-btn:hover { background: #ffd740; }
+  </style>
+</head>
+<body>
+
+<!-- ══ Educational Popup ══ -->
+<div class="popup-overlay" id="edu-popup">
+  <div class="popup-box">
+    <h2>⚠ EDUCATIONAL PURPOSE ONLY ⚠</h2>
+    <p>This website is a <strong>fictional simulation</strong> of a darknet blog, created purely for
+       <strong>educational and cybersecurity awareness</strong> purposes.</p>
+    <p>All tutorials, persons, and technical details are <strong>fictional and for learning only</strong>.
+       Do not attempt any described techniques on real systems without authorisation.</p>
+    <p>Created by <span class="author">Harshit Kashyap</span>. Unauthorised removal of the
+       creator's attribution will render this page non-functional.</p>
+    <button class="popup-btn" onclick="closePopup()">I UNDERSTAND – CONTINUE</button>
+  </div>
+</div>
+
+<!-- ══ Page Content ══ -->
+<div id="main-content" style="display:none">
+<div class="page-wrap">
+
+  <!-- ── Left sidebar (blogroll) ── -->
+  <div class="sidebar">
+    <h3>Allied Blogs</h3>
+    <ul>
+      <li><a href="#">The Null Sector &raquo;</a></li>
+      <li><a href="#">RF Research Lab 0x4 &raquo;</a></li>
+      <li><a href="#">Node Zero Dispatch &raquo;</a></li>
+      <li><a href="#">CipherPunks United &raquo;</a></li>
+      <li><a href="#">Dark Flux Blog &raquo;</a></li>
+      <li><a href="#">Binary Hermit &raquo;</a></li>
+      <li><a href="#">Spectral Frequency &raquo;</a></li>
+    </ul>
+    <br>
+    <h3>Archives</h3>
+    <ul>
+      <li><a href="#">2026 March (2)</a></li>
+      <li><a href="#">2026 February (4)</a></li>
+      <li><a href="#">2026 January (3)</a></li>
+      <li><a href="#">2025 Q4 (9)</a></li>
+      <li><a href="#">2025 Q3 (7)</a></li>
+    </ul>
+    <br>
+    <h3>PGP Key</h3>
+    <p class="tag">0xF8A3 2D1C 9B4E<br>7F06 A521 3D8C<br>Fingerprint verified</p>
+    <br>
+    <h3>Onion Mirror</h3>
+    <p class="tag">h5cdz2rsxpofq9n7kwum<br>3bvjge0a4ilt1y8r6wfp<br>mtnhe5xckdj.onion</p>
+    <br>
+    <h3>Network Links</h3>
+    <ul>
+      <li><a href="index.html">→ Index</a></li>
+      <li><a href="forum.html">→ Forum</a></li>
+      <li><a href="paste.html">→ Paste</a></li>
+      <li><a href="search.html">→ Search</a></li>
+    </ul>
+  </div>
+
+  <!-- ── Main article ── -->
+  <main>
+    <div class="blog-header">
+      <div class="ascii-nav">
+        [ <a href="index.html">INDEX</a> ] :: [ <a href="#">BLOG</a> ] :: ENTRY 409
+      </div>
+      <h1><span class="typewriter">SYSADMIN LOG // ENTRY 409</span></h1>
+      <div class="entry-meta">
+        Published: 2026-03-08 02:17:44 UTC &nbsp;|&nbsp;
+        Author: <strong>ghost_in_the_net</strong> &nbsp;|&nbsp;
+        PGP-signed: ✔ &nbsp;|&nbsp;
+        Views: 2,841
+      </div>
+    </div>
+
+    <article>
+      <h2>How to Build a Faraday Cage for Your Mobile Devices Using Household Items to Block IMSI-Catchers</h2>
+
+      <p>
+        If you are reading this, you already know that IMSI-catchers — colloquially known as Stingrays —
+        are mobile surveillance devices used by law enforcement agencies and, increasingly, unknown private
+        actors to intercept cell communications, track physical locations, and force-downgrade phones from
+        4G/5G to older, more vulnerable 2G protocols. This tutorial is <strong>purely theoretical and educational</strong>.
+        Building a Faraday cage is legal and has many legitimate applications.
+      </p>
+
+      <h2>What is an IMSI-Catcher?</h2>
+
+      <p>
+        An IMSI (International Mobile Subscriber Identity) catcher impersonates a legitimate cell tower.
+        Your device, always hunting for the strongest signal, connects to the fake tower instead of the
+        real one. The device captures your IMSI number — a unique identifier that persists across SIM swaps.
+        From your IMSI, a carrier or court can identify you. Some models (AMSII, Gemini II) can actively
+        intercept voice calls and SMS in real time.
+      </p>
+      <p>
+        Detection is difficult because IMSI catchers operate passively. Countermeasures include:
+      </p>
+      <ul>
+        <li>Using a <strong>VoIP-over-Tor</strong> setup instead of cellular for voice calls</li>
+        <li>Disabling 2G fallback in developer options (Android: Settings → Network → Preferred network type → LTE only)</li>
+        <li>Using IMSI catcher detector apps such as AIMSICD or SnoopSnitch</li>
+        <li>Physically blocking RF transmission — the Faraday cage approach</li>
+      </ul>
+
+      <h2>Materials Required</h2>
+      <ul>
+        <li>Aluminium foil (kitchen grade — 3+ layers work well)</li>
+        <li>A metal tin or biscuit box with a tight-fitting lid</li>
+        <li>Aluminium mesh (window screen material from a hardware store)</li>
+        <li>Conductive copper tape (electrician's supply, ~$6 per roll)</li>
+        <li>Multimeter (optional, for testing attenuation)</li>
+      </ul>
+
+      <h2>Method 1 — The Aluminium Foil Wrap</h2>
+      <p>
+        The simplest approach. Wrap your device in 4–6 layers of aluminium foil, ensuring no gaps.
+        A single layer provides approximately 30–50 dB of RF attenuation in the 700–2100 MHz range used by LTE.
+        Six layers approaches 90–100 dB — effectively a blackout. Test by calling the wrapped device.
+        No ring = success.
+      </p>
+      <p>
+        Weakness: It must be unwrapped every time you use the device. Not practical for daily use.
+        Best for when you need to carry a device without broadcasting your location.
+      </p>
+
+      <h2>Method 2 — The Tin Box Faraday Cage</h2>
+      <p>
+        A metal tin (cookie tin, ammunition box, or military surplus "dry box") provides a
+        reusable and robust Faraday cage. The critical requirement is a <em>conductive seal</em>
+        where the lid meets the body. Most commercial tins have a lip-and-groove fit that
+        is sufficient. Test with a phone: place inside, call it. Silence = good seal.
+      </p>
+
+      <h3>Improving the Seal</h3>
+      <p>
+        Apply conductive copper tape around the lid-body junction on the inside. This eliminates
+        any gaps in the electromagnetic seal. The frequency we're shielding against (700 MHz–2.6 GHz)
+        requires gaps smaller than ~1 cm to be meaningfully attenuated.
+      </p>
+
+      <h2>Method 3 — Aluminium Mesh Pouch</h2>
+      <p>
+        Cut two rectangles of aluminium window screen mesh. Fold and crimp the edges together
+        using conductive tape to form a pouch. This creates a lightweight, portable option.
+        The mesh hole size (~1 mm) is much smaller than the wavelengths of cellular and WiFi frequencies,
+        making it highly effective. You can use it like a wallet for your phone.
+      </p>
+
+      <h2>Testing Your Cage</h2>
+      <pre>
+Test 1 — Voice Call Test:
+  1. Call your device from another phone
+  2. Place device inside cage / wrap
+  3. Seal completely — no gaps
+  4. If the phone rings → FAIL (gap exists)
+  5. If call goes to voicemail → PASS (cage is blocking RF)
+
+Test 2 — WiFi Test (if you have a WiFi analyzer app):
+  1. Note your device's WiFi signal on analyzer
+  2. Seal device inside cage
+  3. Device should disappear from the WiFi network list → PASS
+
+Test 3 — GPS Test:
+  1. Open Google Maps / GPS app outside
+  2. Get a GPS fix
+  3. Seal device inside cage
+  4. GPS fix should be lost within 60 seconds → PASS
+      </pre>
+
+      <h2>Important Notes &amp; Limitations</h2>
+      <ul>
+        <li>A Faraday cage blocks ALL wireless signals — WiFi, Bluetooth, GPS, NFC, and cellular. The device cannot make or receive calls while shielded.</li>
+        <li>Modern high-power Stingray variants may briefly capture your IMSI <em>before</em> you can seal your device. Ideally, power off the device first, then seal it.</li>
+        <li>This is a <strong>passive defensive measure</strong>, not an offensive one. Using RF jamming devices is illegal in most jurisdictions.</li>
+        <li>The best IMSI catcher countermeasure is not carrying a phone at all during sensitive activities.</li>
+      </ul>
+
+      <!-- PGP Signature -->
+      <div class="pgp-sig">
+        <div class="sig-header">── PGP SIGNATURE // Verifies this post was written by ghost_in_the_net and has not been tampered with ──</div>
+        <pre>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.2.41 (GNU/Linux)
+
+iQIzBAABCAAdFiEE+KMiw... [TRUNCATED FOR DISPLAY]
+iQIzBAABCAAdFiEE+KMi
+wDT3kp2f1hCNqP0bJz7g
+FoT23VmQ2YEhV1KnDpM3
+fF0ZuoL7qkHCxBrWIe8s
+69NZvAGY4Rmk3TpJN8eX
+WflPqBO0C4dzR7YmH2Vk
+jL9sFtUXaBcp10EgioPd
+KQn6Mvjh5TLWTNvEe3Kx
+1Yq8sZ0wB7FHjIUA2Rbc
+Pl6mToG9kNvWfXi4OeDs
+2JhYAq3rKp5gcCEsGdUK
+L3kZmJ0yN4AoXhV2fR9c
+Pe5QwlBvnTm8Y1iDuoJs
+7XrKa0FMpNGqH3bZv6Qk
+=x7Az
+-----END PGP SIGNATURE-----
+        </pre>
+        <div style="font-size:9px;color:#3a2a00;margin-top:4px">
+          Fingerprint: F8A3 2D1C 9B4E 7F06 A521 3D8C 2E0B 5A94 C37F 1D82 &nbsp;|&nbsp;
+          Signed: 2026-03-08 02:17:44 UTC
+        </div>
+      </div>
+
+    </article>
+
+    <footer>
+      [ <a href="index.html">INDEX</a> ] [ <a href="search.html">SEARCH</a> ] [ <a href="forum.html">FORUM</a> ]
+      &nbsp;&mdash;&nbsp;
+      Educational simulation by <span id="creator-name">Harshit Kashyap</span>. All content fictional.
+    </footer>
+
+  </main>
+
+  <!-- ── Right sidebar ── -->
+  <div class="right-sidebar">
+    <h3>Recent Entries</h3>
+    <ul>
+      <li><a href="#">Entry 409: Faraday Cage...</a></li>
+      <li><a href="#">Entry 408: Defeating DPI...</a></li>
+      <li><a href="#">Entry 407: XMR Cold Storage...</a></li>
+      <li><a href="#">Entry 406: Secure Boot...</a></li>
+      <li><a href="#">Entry 405: I2P vs Tor...</a></li>
+    </ul>
+    <br>
+    <h3>Topics</h3>
+    <div class="tag-list">
+      <span class="tag-item">opsec</span>
+      <span class="tag-item">rf</span>
+      <span class="tag-item">pgp</span>
+      <span class="tag-item">tor</span>
+      <span class="tag-item">crypto</span>
+      <span class="tag-item">linux</span>
+      <span class="tag-item">imsi</span>
+      <span class="tag-item">faraday</span>
+      <span class="tag-item">firmware</span>
+      <span class="tag-item">tails</span>
+    </div>
+    <br>
+    <h3>Entry Stats</h3>
+    <ul>
+      <li>Views: 2,841</li>
+      <li>Comments: 14</li>
+      <li>Mirrors: 3</li>
+    </ul>
+    <br>
+    <h3>Verify PGP</h3>
+    <p style="font-size:9px;color:#5a4000;line-height:1.5">
+      gpg --verify entry409.sig entry409.txt
+    </p>
+  </div>
+
+</div><!-- /page-wrap -->
+</div><!-- /main-content -->
+
+<script>
+  (function() {
+    const REQUIRED = "Harshit Kashyap";
+
+    function closePopup() {
+      if (!document.getElementById("creator-name") ||
+          document.getElementById("creator-name").textContent.trim() !== REQUIRED) {
+        document.getElementById("edu-popup").innerHTML =
+          '<div style="color:#f00;font-family:monospace;padding:40px;text-align:center">' +
+          '<h2>ERROR 403</h2><p>Creator attribution missing or altered. Page disabled.</p></div>';
+        return;
+      }
+      document.getElementById("edu-popup").style.display = "none";
+      document.getElementById("main-content").style.display = "block";
+    }
+    window.closePopup = closePopup;
+
+    const observer = new MutationObserver(function() {
+      const el = document.getElementById("creator-name");
+      if (!el || el.textContent.trim() !== REQUIRED) {
+        document.getElementById("main-content").style.display = "none";
+        const overlay = document.getElementById("edu-popup");
+        overlay.style.display = "flex";
+        overlay.innerHTML =
+          '<div style="color:#f00;font-family:monospace;padding:40px;text-align:center">' +
+          '<h2>ERROR 403</h2><p>Creator attribution missing or altered. Page disabled.</p></div>';
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  })();
+</script>
+</body>
+</html>
